@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gradle + Spring MVC</title>
+<title>mini pocopay</title>
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
@@ -14,25 +14,32 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Project Name</a>
+			<a class="navbar-brand" href="#">Mini pocopay</a>
 		</div>
 	</div>
 </nav>
 
 <div class="jumbotron">
 	<div class="container">
-		<h1>${title}</h1>
+		<h1>
+			<c:if test="${not empty title}">
+				${title}
+			</c:if>
+		</h1>
+		<h3>
+			<c:if test="${not empty uuid}">
+				${uuid}
+			</c:if>
+		</h3>
 		<p>
 			<c:if test="${not empty msg}">
-				Hello ${msg}
-			</c:if>
-
-			<c:if test="${empty msg}">
-				Welcome Welcome!
+				${msg}
 			</c:if>
 		</p>
 		<p>
-			<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+			<c:if test="${empty uuid}">
+				<a class="btn btn-primary btn-lg" href="newaccount" role="button">Create account</a>
+			</c:if>
 		</p>
 	</div>
 </div>

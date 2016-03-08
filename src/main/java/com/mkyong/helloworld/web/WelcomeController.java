@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mkyong.helloworld.service.HelloWorldService;
+import com.mkyong.helloworld.service.AccountService;
 
 @Controller
 public class WelcomeController {
@@ -29,23 +30,42 @@ public class WelcomeController {
 
 		logger.debug("index() is executed!");
 
-		model.put("title", helloWorldService.getTitle(""));
-		model.put("msg", helloWorldService.getDesc());
-		
+		model.put("title", "Hello World");
+		model.put("msg", "Choose an account or create a new one");
+
 		return "index";
 	}
 
-	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
-	public ModelAndView hello(@PathVariable("name") String name) {
 
-		logger.debug("hello() is executed - $name {}", name);
+	@RequestMapping(value = "/newaccount", method = RequestMethod.GET)
+	public ModelAndView newaccount() {
+
+		logger.debug("newaccount() is executed!");
+
+		String uuid = AccountService.newUUID();
+		logger.debug("new account is created - {}!", uuid);
+		ModelAndView model = new ModelAndView();
+		model.setViewName("index");
+
+		model.addObject("title", helloWorldService.getTitle());
+		model.addObject("uuid", uuid);
+		// model.addObject("msg", "");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/hello/{uuid:.+}", method = RequestMethod.GET)
+	public ModelAndView hello(@PathVariable("uuid") String uuid) {
+
+		logger.debug("hello() is executed - $uuid: {}", uuid);
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
-		
-		model.addObject("title", helloWorldService.getTitle(name));
-		model.addObject("msg", helloWorldService.getDesc());
-		
+
+		model.addObject("uuid", uuid);
+		model.addObject("msg", "Make a transaction");
+
 		return model;
 
 	}
